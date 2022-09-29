@@ -13,6 +13,7 @@ import { drawSystem } from '@/game/systems/drawSystem';
 import { inputSystem } from '@/game/systems/inputSystem';
 import { physicsSystem } from '@/game/systems/physicsSystem';
 import { bombSystem } from '@/game/systems/bombSystem';
+import { timerSystem } from '@/game/systems/timerSystem';
 
 const keyMap = useKeyMap();
 const world = createWorld();
@@ -29,20 +30,27 @@ function loop(currentTime = 0) {
   delta = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
 
+  const frameEndHooks = new Set<() => void>();
   const state: GameState = {
     canvas: canvas.value,
     context,
     delta,
     world,
     keys: keyMap,
+    onCurrentFrameEnd(fn) {
+      frameEndHooks.add(fn);
+      return () => frameEndHooks.delete(fn);
+    },
   };
 
+  timerSystem(state);
   inputSystem(state);
   physicsSystem(state);
   drawSystem(state);
   bombSystem(state);
 
   keyMap.nextKeysFrame();
+  frameEndHooks.forEach((fn) => fn());
 }
 
 function setup() {

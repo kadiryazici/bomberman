@@ -1,11 +1,8 @@
 export function Singleton<T extends new (...args: any[]) => any>(constructor: T) {
-  let instance: unknown = null;
+  let instance: any = null;
 
-  return class extends constructor {
-    constructor(...args: any[]) {
-      if (instance) return instance;
-      super(...args);
-      instance = this;
-    }
-  };
+  return function (...args: any[]) {
+    instance ||= new constructor(...args);
+    return instance;
+  } as unknown as T;
 }

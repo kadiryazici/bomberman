@@ -7,6 +7,7 @@ export interface GameState {
   delta: number;
   world: World;
   keys: KeyMap;
+  onCurrentFrameEnd: (fn: () => void) => () => void;
 }
 
 export type System = (state: GameState) => void;

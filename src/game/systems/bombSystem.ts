@@ -1,18 +1,14 @@
 import { defineSystem } from '@/utils';
 import { createEntity, createQuery, EntityId, With } from '@kadiryazici/ecs';
-import { BombC, ColorC, PositionC, SizeC, TimerC } from '../components';
+import { BombC, ColorC, FlameC, PositionC, SizeC, TimerC } from '../components';
 import { TILE_SIZE } from '../constants';
 
 const bombQuery = createQuery([TimerC, EntityId, PositionC], With(BombC));
 
-export const bombSystem = defineSystem(({ world, delta }) => {
+export const bombSystem = defineSystem(({ world }) => {
   for (const [timer, eid, pos] of bombQuery.exec(world)) {
-    timer.current += delta;
-
-    if (timer.current >= timer.timeout) {
+    if (timer.justFinished) {
       world.remove(eid);
-
-      if (timer.particle) continue;
 
       const points = [
         pos.value.clone(),
@@ -25,11 +21,17 @@ export const bombSystem = defineSystem(({ world, delta }) => {
       points.forEach((pos) => {
         world.add(
           createEntity()
-            .add(BombC.create())
             .add(ColorC.create({ value: 'rgb(255, 50, 50)' }))
             .add(PositionC.create({ value: pos }))
             .add(SizeC.create({ value: TILE_SIZE }))
-            .add(TimerC.create({ timeout: 1.0, particle: true })),
+            .add(FlameC.create())
+            .add(
+              TimerC.create({
+                timeout: 1.0,
+                removeEntityOnFinish: true,
+                repeat: true,
+              }),
+            ),
         );
       });
     }

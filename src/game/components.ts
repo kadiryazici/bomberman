@@ -17,5 +17,8 @@ export const WallC = defineComponent({
 export const TimerC = defineComponent({
   timeout: 0,
   current: 0,
-  particle: false,
+  finished: false,
+  justFinished: false,
+  repeat: false,
+  removeEntityOnFinish: false,
 });
