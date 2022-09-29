@@ -1,7 +1,7 @@
 import { center, defineSystem } from '@/utils';
 import { createEntity, createQuery, With } from '@kadiryazici/ecs';
 import Vec2 from 'vec2';
-import { BombC, ColorC, PlayerC, PositionC, SizeC, TimerC, VelocityC } from '../components';
+import { BombC, ColliderC, ColorC, PlayerC, PositionC, SizeC, TimerC, VelocityC } from '../components';
 import { PLAYER_SPEED, TILE_SIZE } from '../constants';
 
 const playerVelocityQuery = createQuery([VelocityC, PositionC, SizeC], With(PlayerC));
@@ -28,7 +28,8 @@ export const inputSystem = defineSystem(({ world, keys }) => {
             .add(ColorC.create({ value: 'rgb(255, 0, 0)' }))
             .add(PositionC.create({ value: tilePos }))
             .add(SizeC.create({ value: TILE_SIZE }))
-            .add(TimerC.create({ timeout: 2.0 })),
+            .add(TimerC.create({ timeout: 2.0 }))
+            .add(ColliderC.create()),
         );
       }
     }

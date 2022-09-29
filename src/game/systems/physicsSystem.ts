@@ -14,6 +14,12 @@ export const physicsSystem = defineSystem(({ world, delta }) => {
     const nextPlayerPos = playerPos.value.clone().add(playerVel.value.x * delta, playerVel.value.y * delta);
 
     for (const [colliderPos, colliderSize] of colliders) {
+      // If is colliding currently, let player move instead of make it stuck
+      if (isColliding(playerPos.value, playerSize.value, colliderPos.value, colliderSize.value)) {
+        continue;
+      }
+
+      // If next X position is not colliding.
       if (
         isColliding(
           new Vec2(nextPlayerPos.x, playerPos.value.y), //
@@ -25,6 +31,7 @@ export const physicsSystem = defineSystem(({ world, delta }) => {
         nextPlayerPos.x = playerPos.value.x;
       }
 
+      // If next Y position is not colliding.
       if (
         isColliding(
           new Vec2(playerPos.value.x, nextPlayerPos.y), //
