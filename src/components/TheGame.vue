@@ -61,7 +61,7 @@ function setup() {
   world.add(
     createEntity()
       .add(PlayerC.create())
-      .add(ColorC.create({ value: TileColor[TileType.Player], defaultColor: TileColor[TileType.Player] }))
+      .add(ColorC.create({ value: TileColor[TileType.Player] }))
       .add(SizeC.create({ value: PLAYER_SIZE }))
       .add(VelocityC.create({ value: new Vec2(0, 0) }))
       .add(
@@ -88,7 +88,7 @@ function setup() {
           .add(SizeC.create({ value: TILE_SIZE }))
           .add(ColliderC.create())
           .add(PositionC.create({ value: new Vec2(x * TILE_SIZE, y * TILE_SIZE) }))
-          .add(ColorC.create({ value: TileColor[tileType], defaultColor: TileColor[tileType] }));
+          .add(ColorC.create({ value: TileColor[tileType] }));
 
         world.add(entity);
       }
@@ -115,3 +115,23 @@ onMounted(() => {
     <canvas ref="canvas" />
   </div>
 </template>
+
+<style lang="scss" scoped>
+#game-canvas {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  canvas {
+    object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+</style>

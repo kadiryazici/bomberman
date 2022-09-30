@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@kadiryazici/ecs": "^1.0.0",
+    "@kadiryazici/ecs": "^1.1.0",
     "vec2": "^1.6.1",
     "vue": "^3.2.38"
   },

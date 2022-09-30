@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@kadiryazici/ecs': ^1.0.0
+  '@kadiryazici/ecs': ^1.1.0
   '@rushstack/eslint-patch': ^1.1.4
   '@types/node': ^16.11.56
   '@vitejs/plugin-vue': ^3.0.3
@@ -21,7 +21,7 @@ specifiers:
   vue-tsc: ^0.40.7
 
 dependencies:
-  '@kadiryazici/ecs': 1.0.0
+  '@kadiryazici/ecs': 1.1.0
   vec2: 1.6.1
   vue: 3.2.39
 
@@ -438,8 +438,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@kadiryazici/ecs/1.0.0:
-    resolution: {integrity: sha512-2JO4OkNv/7mR2mxz/eSUkNL/m0LV540ocOhmjDcutOYbMkL+6pdKAXIlxqg5dudoJtvHwUmCyix1d2D0m5GqaA==}
+  /@kadiryazici/ecs/1.1.0:
+    resolution: {integrity: sha512-y4ieoE3ivxfLQqtVh/K975EnbJ8fCjhVf3sgKGPjfOLJJaZv3kF1qK+E1JmwzG32aL8lDJIgtnsTF9RfOChnVQ==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
