@@ -63,7 +63,7 @@ function setup() {
       .add(PlayerC.create())
       .add(ColorC.create({ value: TileColor[TileType.Player] }))
       .add(SizeC.create({ value: PLAYER_SIZE }))
-      .add(VelocityC.create({ value: new Vec2(0, 0) }))
+      .add(VelocityC.create())
       .add(
         PositionC.create({
           value: new Vec2(
