@@ -34,7 +34,7 @@ export const physicsSystem = defineSystem(({ world, delta }) => {
       // If next Y position is not colliding.
       if (
         isColliding(
-          new Vec2(playerPos.value.x, nextPlayerPos.y), //
+          nextPlayerPos, //
           playerSize.value,
           colliderPos.value,
           colliderSize.value,
