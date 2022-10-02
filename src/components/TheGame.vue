@@ -14,6 +14,7 @@ import { inputSystem } from '@/game/systems/inputSystem';
 import { physicsSystem } from '@/game/systems/physicsSystem';
 import { bombSystem } from '@/game/systems/bombSystem';
 import { timerSystem } from '@/game/systems/timerSystem';
+import { flameSystem } from '@/game/systems/flameSystem';
 
 const keyMap = useKeyMap();
 const world = createWorld();
@@ -23,38 +24,47 @@ let context: CanvasRenderingContext2D;
 let delta = 0;
 let lastTime = 0;
 
+const nextFrameStartHooks = new Set<() => void>();
+function onNextFrameStart(fn: () => void) {
+  nextFrameStartHooks.add(fn);
+  return () => nextFrameStartHooks.delete(fn);
+}
+
 function loop(currentTime = 0) {
   requestAnimationFrame(loop);
   if (!canvas.value) return;
 
+  nextFrameStartHooks.forEach((fn) => fn());
+  nextFrameStartHooks.clear();
+
   delta = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
 
-  const frameEndHooks = new Set<() => void>();
   const state: GameState = {
     canvas: canvas.value,
     context,
     delta,
     world,
     keys: keyMap,
-    onCurrentFrameEnd(fn) {
-      frameEndHooks.add(fn);
-      return () => frameEndHooks.delete(fn);
-    },
+    onNextFrameStart,
   };
 
   timerSystem(state);
   inputSystem(state);
   physicsSystem(state);
-  drawSystem(state);
   bombSystem(state);
+  flameSystem(state);
+  drawSystem(state);
 
   keyMap.nextKeysFrame();
-  frameEndHooks.forEach((fn) => fn());
 }
 
 function setup() {
   keyMap.registerKeyHandler(' ', (e) => e.preventDefault());
+  keyMap.registerKeyHandler('ArrowLeft', (e) => e.preventDefault());
+  keyMap.registerKeyHandler('ArrowRight', (e) => e.preventDefault());
+  keyMap.registerKeyHandler('ArrowUp', (e) => e.preventDefault());
+  keyMap.registerKeyHandler('ArrowDown', (e) => e.preventDefault());
 
   const { map, playerSpawnTile } = LEVEL_1;
 

@@ -36,15 +36,24 @@ export const inputSystem = defineSystem(({ world, keys }) => {
 
     const nextVelocity = new Vec2(0, 0);
 
-    if (keys.isPressed('A') && !keys.isPressed('D')) {
+    if (
+      (keys.isPressed('A') || keys.isPressed('ArrowLeft')) &&
+      !(keys.isPressed('D') || keys.isPressed('ArrowRight'))
+    ) {
       nextVelocity.x = -1;
-    } else if (keys.isPressed('D') && !keys.isPressed('A')) {
+    } else if (
+      (keys.isPressed('D') || keys.isPressed('ArrowRight')) &&
+      !(keys.isPressed('A') || keys.isPressed('ArrowLeft'))
+    ) {
       nextVelocity.x = 1;
     }
 
-    if (keys.isPressed('S') && !keys.isPressed('W')) {
+    if ((keys.isPressed('S') || keys.isPressed('ArrowDown')) && !(keys.isPressed('W') || keys.isPressed('ArrowUp'))) {
       nextVelocity.y = 1;
-    } else if (keys.isPressed('W') && !keys.isPressed('S')) {
+    } else if (
+      (keys.isPressed('W') || keys.isPressed('ArrowUp')) &&
+      !(keys.isPressed('S') || keys.isPressed('ArrowDown'))
+    ) {
       nextVelocity.y = -1;
     }
 

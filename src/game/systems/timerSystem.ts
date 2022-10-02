@@ -4,7 +4,7 @@ import { TimerC } from '../components';
 
 const timerQuery = createQuery([TimerC, EntityId]);
 
-export const timerSystem = defineSystem(({ world, delta, onCurrentFrameEnd }) => {
+export const timerSystem = defineSystem(({ world, delta, onNextFrameStart }) => {
   for (const [timer, eid] of timerQuery.exec(world)) {
     if (timer.finished) continue;
 
@@ -17,7 +17,7 @@ export const timerSystem = defineSystem(({ world, delta, onCurrentFrameEnd }) =>
       if (timer.removeEntityOnFinish) {
         world.remove(eid);
       } else {
-        onCurrentFrameEnd(() => {
+        onNextFrameStart(() => {
           timer.justFinished = false;
           if (timer.repeat) {
             timer.current = 0;

@@ -5,8 +5,8 @@ import { WallType } from './constants';
 export const FlameC = defineComponent();
 export const ColliderC = defineComponent();
 export const PlayerC = defineComponent();
-export const BombC = defineComponent();
 
+export const BombC = defineComponent(() => ({ flameSize: 1 }));
 export const SizeC = defineComponent(() => ({ value: 0 }));
 export const PositionC = defineComponent(() => ({ value: new Vec2(0, 0) }));
 export const ColorC = defineComponent(() => ({ value: '' }));

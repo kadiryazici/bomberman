@@ -1,22 +1,30 @@
 import { defineSystem } from '@/utils';
-import { createQuery, With, Without } from '@kadiryazici/ecs';
-import { ColorC, PlayerC, PositionC, SizeC } from '../components';
+import { createQuery, With } from '@kadiryazici/ecs';
+import Vec2 from 'vec2';
+import { BombC, ColorC, FlameC, PlayerC, PositionC, SizeC, WallC } from '../components';
 import { clearColor } from '../constants';
 
-const nonPlayerQ = createQuery([PositionC, ColorC, SizeC], Without(PlayerC));
+const wallQ = createQuery([PositionC, ColorC, SizeC], With(WallC));
+const bombQ = createQuery([PositionC, ColorC, SizeC], With(BombC));
+const flameQ = createQuery([PositionC, ColorC, SizeC], With(FlameC));
 const playerQ = createQuery([PositionC, ColorC, SizeC], With(PlayerC));
 
+function draw(context: CanvasRenderingContext2D, color: string, pos: Vec2, width: number, height: number) {
+  context.fillStyle = color;
+  context.fillRect(pos.x, pos.y, width, height);
+}
+
 export const drawSystem = defineSystem(({ context, canvas, world }) => {
-  context.fillStyle = clearColor;
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  draw(context, clearColor, new Vec2(0, 0), canvas.width, canvas.height);
 
-  for (const [pos, color, size] of nonPlayerQ.exec(world)) {
-    context.fillStyle = color.value;
-    context.fillRect(pos.value.x, pos.value.y, size.value, size.value);
-  }
+  const query = [
+    ...wallQ.exec(world), //
+    ...bombQ.exec(world),
+    ...flameQ.exec(world),
+    ...playerQ.exec(world),
+  ];
 
-  for (const [pos, color, size] of playerQ.exec(world)) {
-    context.fillStyle = color.value;
-    context.fillRect(pos.value.x, pos.value.y, size.value, size.value);
+  for (const [pos, color, size] of query) {
+    draw(context, color.value, pos.value, size.value, size.value);
   }
 });
